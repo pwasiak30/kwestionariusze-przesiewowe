@@ -1,0 +1,18 @@
+{
+  "name": "Narzędzia Przesiewowe — GAD-7, PHQ-9, PCL-5, BDI-II, AUDIT",
+  "short_name": "Przesiew",
+  "description": "Kwestionariusze przesiewowe z automatycznym scoringiem i interpretacją wg polskich progów klinicznych.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbfdfe",
+  "theme_color": "#0292A9",
+  "lang": "pl",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
