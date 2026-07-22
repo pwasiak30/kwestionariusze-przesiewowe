@@ -10,86 +10,130 @@
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="style.css">
+<style>
+/* --- Przycisk wsparcia (Suppi) — zawsze widoczny --- */
+.coffee-fab {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  right: 16px;
+  bottom: 16px;
+  background: #B5794A;
+  color: #FFF7EC;
+  text-decoration: none;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 16px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.coffee-fab:hover, .coffee-fab:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 20px rgba(0,0,0,0.34);
+}
+.coffee-fab .coffee-icon { font-size: 16px; line-height: 1; }
+@media (max-width: 480px) {
+  .coffee-fab {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+/* Na desktopie z sidebarem podnosimy trochę, żeby nie kolidowało z ewentualną stopką */
+@media (min-width: 900px) {
+  .coffee-fab { right: 24px; bottom: 24px; }
+}
+</style>
 </head>
 <body>
-
 <div class="app-shell">
 
-  <!-- ============ TOP BAR (mobile) / SIDEBAR (desktop) ============ -->
-  <header class="topbar">
-    <div class="brand" data-action="go-home">
-      <span class="brand-mark">◎</span>
-      <span class="brand-text">Narzędzia&nbsp;Przesiewowe</span>
-    </div>
-    <button class="icon-btn" id="offlineIndicator" title="Status połączenia" aria-label="Status połączenia">
-      <span id="offlineDot" class="dot dot-online"></span>
-    </button>
-  </header>
+<!-- ============ PRZYCISK WSPARCIA — zawsze widoczny, niezależnie od widoku ============ -->
+<a class="coffee-fab" href="https://suppi.pl/pawelwasiak" target="_blank" rel="noopener" title="Postaw mi kawę na Suppi">
+<span class="coffee-icon">☕</span>
+<span class="coffee-label">Postaw kawę</span>
+</a>
 
-  <nav class="sidebar" aria-label="Nawigacja główna">
-    <div class="brand sidebar-brand" data-action="go-home">
-      <span class="brand-mark">◎</span>
-      <span class="brand-text">Narzędzia<br>Przesiewowe</span>
-    </div>
-    <div class="sidebar-list" id="sidebarList"><!-- injected --></div>
-    <div class="sidebar-footer">
-      <span id="offlineDotSidebar" class="dot dot-online"></span>
-      <span id="offlineTextSidebar">Połączono</span>
-    </div>
-  </nav>
+<!-- ============ TOP BAR (mobile) / SIDEBAR (desktop) ============ -->
+<header class="topbar">
+<div class="brand" data-action="go-home">
+<span class="brand-mark">◎</span>
+<span class="brand-text">Narzędzia&nbsp;Przesiewowe</span>
+</div>
+<button class="icon-btn" id="offlineIndicator" title="Status połączenia" aria-label="Status połączenia">
+<span id="offlineDot" class="dot dot-online"></span>
+</button>
+</header>
 
-  <!-- ============ MAIN CONTENT ============ -->
-  <main class="content" id="content">
-    <!-- Views injected by app.js -->
-  </main>
+<nav class="sidebar" aria-label="Nawigacja główna">
+<div class="brand sidebar-brand" data-action="go-home">
+<span class="brand-mark">◎</span>
+<span class="brand-text">Narzędzia<br>Przesiewowe</span>
+</div>
+<div class="sidebar-list" id="sidebarList"><!-- injected --></div>
+<div class="sidebar-footer">
+<span id="offlineDotSidebar" class="dot dot-online"></span>
+<span id="offlineTextSidebar">Połączono</span>
+</div>
+</nav>
 
-  <!-- ============ BOTTOM NAV (mobile only) ============ -->
-  <nav class="bottombar" id="bottombar" aria-label="Szybka nawigacja"></nav>
+<!-- ============ MAIN CONTENT ============ -->
+<main class="content" id="content">
+<!-- Views injected by app.js -->
+</main>
+
+<!-- ============ BOTTOM NAV (mobile only) ============ -->
+<nav class="bottombar" id="bottombar" aria-label="Szybka nawigacja"></nav>
 
 </div>
 
 <template id="tpl-home">
-  <section class="view view-home">
-    <div class="hero">
-      <h1>Kwestionariusze&nbsp;przesiewowe</h1>
-      <p>Wypełnij, a aplikacja automatycznie policzy wynik i przedstawi interpretację zgodną z przyjętymi progami klinicznymi. Działa również offline.</p>
-    </div>
-    <div class="card-grid" id="questCards"><!-- injected --></div>
-    <p class="disclaimer">
-      Narzędzia mają charakter przesiewowy i psychoedukacyjny. Nie zastępują diagnozy klinicznej postawionej przez uprawnionego specjalistę.
-      Wyniki nie są nigdzie wysyłane ani zapisywane poza urządzeniem, na którym uzupełniany jest kwestionariusz.
-    </p>
-  </section>
+<section class="view view-home">
+<div class="hero">
+<h1>Kwestionariusze&nbsp;przesiewowe</h1>
+<p>Wypełnij, a aplikacja automatycznie policzy wynik i przedstawi interpretację zgodną z przyjętymi progami klinicznymi. Działa również offline.</p>
+</div>
+<div class="card-grid" id="questCards"><!-- injected --></div>
+<p class="disclaimer">
+Narzędzia mają charakter przesiewowy i psychoedukacyjny. Nie zastępują diagnozy klinicznej postawionej przez uprawnionego specjalistę.
+Wyniki nie są nigdzie wysyłane ani zapisywane poza urządzeniem, na którym uzupełniany jest kwestionariusz.
+</p>
+</section>
 </template>
 
 <template id="tpl-quest">
-  <section class="view view-quest">
-    <button class="back-btn" data-action="go-home">← Powrót do listy narzędzi</button>
-    <div class="quest-header">
-      <h1 id="questTitle"></h1>
-      <p id="questDesc"></p>
-      <p class="instructions" id="questInstructions"></p>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <span class="progress-label" id="progressLabel">0 / 0</span>
-    </div>
-    <form id="questForm" class="quest-form"></form>
-    <div class="quest-actions">
-      <button type="button" class="btn btn-primary" id="submitBtn" disabled>Oblicz wynik</button>
-    </div>
-  </section>
+<section class="view view-quest">
+<button class="back-btn" data-action="go-home">← Powrót do listy narzędzi</button>
+<div class="quest-header">
+<h1 id="questTitle"></h1>
+<p id="questDesc"></p>
+<p class="instructions" id="questInstructions"></p>
+</div>
+<div class="progress-wrap">
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<span class="progress-label" id="progressLabel">0 / 0</span>
+</div>
+<form id="questForm" class="quest-form"></form>
+<div class="quest-actions">
+<button type="button" class="btn btn-primary" id="submitBtn" disabled>Oblicz wynik</button>
+</div>
+</section>
 </template>
 
 <template id="tpl-result">
-  <section class="view view-result">
-    <button class="back-btn" data-action="go-home">← Powrót do listy narzędzi</button>
-    <div class="result-card" id="resultCard"></div>
-    <div class="quest-actions">
-      <button type="button" class="btn btn-secondary" id="printBtn">Drukuj / zapisz PDF</button>
-      <button type="button" class="btn btn-primary" id="retryBtn">Wypełnij ponownie</button>
-    </div>
-  </section>
+<section class="view view-result">
+<button class="back-btn" data-action="go-home">← Powrót do listy narzędzi</button>
+<div class="result-card" id="resultCard"></div>
+<div class="quest-actions">
+<button type="button" class="btn btn-secondary" id="printBtn">Drukuj / zapisz PDF</button>
+<button type="button" class="btn btn-primary" id="retryBtn">Wypełnij ponownie</button>
+</div>
+</section>
 </template>
 
 <script src="data.js"></script>
