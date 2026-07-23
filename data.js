@@ -273,7 +273,7 @@ const QUESTIONNAIRES = {
     kind: "likert",
     options: TAK_NIE,
     maxScore: 30,
-    reverseIndices: [0, 4, 6, 8, 14, 18, 20, 26, 28, 29],
+    reverseIndices: [0, 4, 6, 10, 12, 18, 20, 21, 26, 27, 28],
     items: [
       "Czy jest Pan/Pani zasadniczo zadowolony(a) ze swojego życia?",
       "Czy zrezygnował(a) Pan/Pani z wielu swoich zajęć i zainteresowań?",
@@ -420,11 +420,14 @@ const QUESTIONNAIRES = {
     ],
     interpret(total, answersA, answersB) {
       let band, note;
-      if (total <= 54) { band = "Brak fobii społecznej"; note = "Wynik poniżej progu klinicznego."; }
-      else if (total <= 65) { band = "Łagodna fobia społeczna"; note = "Warto obserwować nasilenie objawów."; }
-      else if (total <= 80) { band = "Umiarkowana fobia społeczna"; note = "Wskazana konsultacja specjalistyczna."; }
-      else if (total <= 95) { band = "Nasilona fobia społeczna"; note = "Wskazane leczenie (psychoterapia i/lub farmakoterapia)."; }
-      else { band = "Bardzo nasilona fobia społeczna"; note = "Wskazana pilna interwencja kliniczna."; }
+      // Progi liczbowe wg jednego z publikowanych schematów (m.in. tab. w Danforth i wsp., PMC6208958);
+      // uwaga: w literaturze funkcjonuje też inny, niezależny schemat progów (Mennin i wsp. 2002:
+      // 0–29 / 30–49 / 50–64 / 65–79 / 80–94 / ≥95) — przy interpretacji warto podać źródło.
+      if (total <= 54) { band = "Norma (brak fobii społecznej)"; note = "Wynik poniżej progu klinicznego."; }
+      else if (total <= 65) { band = "Umiarkowana fobia społeczna"; note = "Wskazana konsultacja specjalistyczna."; }
+      else if (total <= 80) { band = "Nasilona (wyraźna) fobia społeczna"; note = "Wskazana konsultacja specjalistyczna."; }
+      else if (total <= 95) { band = "Ciężka fobia społeczna"; note = "Wskazane leczenie (psychoterapia i/lub farmakoterapia)."; }
+      else { band = "Bardzo ciężka (skrajna) fobia społeczna"; note = "Wskazana pilna interwencja kliniczna."; }
       const sumA = answersA.reduce((s, v) => s + v, 0);
       const sumB = answersB.reduce((s, v) => s + v, 0);
       return { band, note, flag: null, dualSums: { labelA: "Suma lęku/strachu", sumA, labelB: "Suma unikania", sumB } };
@@ -510,8 +513,7 @@ const QUESTIONNAIRES = {
     interpret(total) {
       let band, note;
       if (total <= 5) { band = "Norma"; note = "Brak wskazań na bezsenność."; }
-      else if (total <= 10) { band = "Pogranicze normy"; note = "Zalecana higiena snu i obserwacja."; }
-      else { band = "Prawdopodobna bezsenność"; note = "Wynik >10 pkt — wskazana konsultacja lekarska."; }
+      else { band = "Prawdopodobna bezsenność"; note = "Wynik ≥6 pkt — zgodnie z oryginalną walidacją skali (Soldatos i wsp.) sugeruje to prawdopodobną bezsenność; wskazana konsultacja lekarska."; }
       return { band, note, flag: null };
     }
   },
@@ -598,8 +600,8 @@ const QUESTIONNAIRES = {
     ],
     interpret(total) {
       let band, note;
-      if (total <= 4) { band = "Brak wskazań"; note = "Wynik poniżej progu przesiewowego."; }
-      else { band = "Możliwe problemowe korzystanie z Internetu"; note = "5 lub więcej odpowiedzi „Tak” sugeruje możliwy problem — wskazana pogłębiona ocena."; }
+      if (total <= 5) { band = "Brak wskazań"; note = "Wynik poniżej progu przesiewowego."; }
+      else { band = "Możliwe problemowe korzystanie z Internetu"; note = "Więcej niż 5 odpowiedzi „Tak” (6 lub więcej) sugeruje możliwy problem — wskazana pogłębiona ocena."; }
       return { band, note, flag: null };
     }
   },
@@ -780,26 +782,46 @@ const QUESTIONNAIRES = {
     description: "10-pozycyjna, skrócona wersja testu MAST oceniająca prawdopodobieństwo uzależnienia od alkoholu.",
     category: "uzaleznienia",
     keywords: ["alkohol", "MAST", "uzależnienie od alkoholu"],
-    instructions: "Format tak/nie, odnoszący się do całego dotychczasowego życia.",
-    kind: "likert",
-    options: TAK_NIE,
-    maxScore: 10,
+    instructions: "Format tak/nie, odnoszący się do całego dotychczasowego życia. Pozycje mają różną wagę punktową, zgodnie z oryginalnym kluczem Brief MAST (Pokorny i wsp., 1972).",
+    kind: "peritem",
+    maxScore: 26,
     items: [
-      "Czy uważasz, że pijesz tak jak większość ludzi (normalnie)?",
-      "Czy bliscy lub przyjaciele kiedykolwiek wyrażali zaniepokojenie ilością wypijanego przez Ciebie alkoholu?",
-      "Czy kiedykolwiek uczestniczyłeś/aś w spotkaniu Anonimowych Alkoholików?",
-      "Czy z powodu picia straciłeś/aś bliski związek (partnera, przyjaciela, rodzinę)?",
-      "Czy kiedykolwiek miałeś/aś problemy w pracy z powodu picia?",
-      "Czy zdarzyło Ci się zaniedbywać obowiązki, rodzinę lub pracę z powodu picia przez 2 lub więcej dni z rzędu?",
-      "Czy miewałeś/aś kiedykolwiek drżenie rąk, omamy (delirium tremens) po odstawieniu alkoholu?",
-      "Czy kiedykolwiek szukałeś/aś pomocy z powodu swojego picia?",
-      "Czy byłeś/aś kiedykolwiek hospitalizowany/a z powodu picia?",
-      "Czy byłeś/aś kiedykolwiek zatrzymany/a lub ukarany/a za prowadzenie pojazdu pod wpływem alkoholu?"
+      { text: "Czy uważasz, że pijesz tak jak większość ludzi (normalnie)?", options: [
+        { value: 0, label: "Tak" }, { value: 2, label: "Nie" }
+      ]},
+      { text: "Czy bliscy lub przyjaciele kiedykolwiek wyrażali zaniepokojenie ilością wypijanego przez Ciebie alkoholu?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy kiedykolwiek uczestniczyłeś/aś w spotkaniu Anonimowych Alkoholików?", options: [
+        { value: 5, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy z powodu picia straciłeś/aś bliski związek (partnera, przyjaciela, rodzinę)?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy kiedykolwiek miałeś/aś problemy w pracy z powodu picia?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy zdarzyło Ci się zaniedbywać obowiązki, rodzinę lub pracę z powodu picia przez 2 lub więcej dni z rzędu?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy miewałeś/aś kiedykolwiek drżenie rąk, omamy (delirium tremens) po odstawieniu alkoholu?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy kiedykolwiek szukałeś/aś pomocy z powodu swojego picia?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy byłeś/aś kiedykolwiek hospitalizowany/a z powodu picia?", options: [
+        { value: 5, label: "Tak" }, { value: 0, label: "Nie" }
+      ]},
+      { text: "Czy byłeś/aś kiedykolwiek zatrzymany/a lub ukarany/a za prowadzenie pojazdu pod wpływem alkoholu?", options: [
+        { value: 2, label: "Tak" }, { value: 0, label: "Nie" }
+      ]}
     ],
     interpret(total) {
       let band, note;
-      if (total <= 4) { band = "Niskie prawdopodobieństwo uzależnienia"; note = "Wynik poniżej progu przesiewowego."; }
-      else { band = "Wysokie prawdopodobieństwo uzależnienia od alkoholu"; note = "5 lub więcej odpowiedzi „Tak” wskazuje na wysokie prawdopodobieństwo uzależnienia — wskazana dalsza diagnostyka specjalistyczna."; }
+      if (total <= 5) { band = "Niskie prawdopodobieństwo uzależnienia"; note = "Wynik poniżej progu przesiewowego."; }
+      else if (total <= 16) { band = "Prawdopodobny problem alkoholowy"; note = "Wynik ≥6 pkt sugeruje problem alkoholowy — wskazana dalsza diagnostyka specjalistyczna."; }
+      else { band = "Wysokie prawdopodobieństwo uzależnienia od alkoholu"; note = "Wynik ≥17 pkt jest typowy dla osób uzależnionych od alkoholu — wskazana pilna konsultacja specjalistyczna."; }
       return { band, note, flag: null };
     }
   },
