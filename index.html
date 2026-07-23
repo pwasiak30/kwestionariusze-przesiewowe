@@ -19,7 +19,11 @@
   align-items: center;
   gap: 8px;
   right: 16px;
-  bottom: 16px;
+  /* Domyślnie (telefon/tablet, < 1024px) na dole ekranu widoczny jest stały
+     pasek zakładek (.bottombar) — podnosimy przycisk ponad niego, żeby go
+     nie zasłaniał. Wysokość paska to ok. 56-60px + bezpieczny margines na
+     dole ekranu (notch/gesture bar) z env(safe-area-inset-bottom). */
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   background: #B5794A;
   color: #FFF7EC;
   text-decoration: none;
@@ -39,13 +43,14 @@
 @media (max-width: 480px) {
   .coffee-fab {
     right: 12px;
-    bottom: 12px;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
     padding: 10px 14px;
     font-size: 13px;
   }
 }
-/* Na desktopie z sidebarem podnosimy trochę, żeby nie kolidowało z ewentualną stopką */
-@media (min-width: 900px) {
+/* Pasek zakładek (.bottombar) jest ukrywany dopiero od 1024px (patrz style.css) —
+   dopiero od tej szerokości przycisk może zejść niżej, bo nie ma czego zasłaniać. */
+@media (min-width: 1024px) {
   .coffee-fab { right: 24px; bottom: 24px; }
 }
 </style>
@@ -97,6 +102,10 @@
 <div class="hero">
 <h1>Kwestionariusze&nbsp;przesiewowe</h1>
 <p>Wypełnij, a aplikacja automatycznie policzy wynik i przedstawi interpretację zgodną z przyjętymi progami klinicznymi. Działa również offline.</p>
+<div class="value-prop">
+<span class="value-prop-icon">✓</span>
+<p>Aplikacja sama sumuje punkty i pokazuje interpretację zgodną z polskimi normami klinicznymi. Brzmi banalnie, ale w praktyce psycholodzy często muszą to robić ręcznie — sumując punkty na kartce albo w Excelu.</p>
+</div>
 </div>
 <div class="card-grid" id="questCards"><!-- injected --></div>
 <p class="disclaimer">

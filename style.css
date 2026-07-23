@@ -116,6 +116,20 @@ button{font-family:inherit;}
 .hero h1{font-size:1.6rem; color:var(--teal-900);}
 .hero p{max-width:60ch;}
 
+.value-prop{
+  display:flex; align-items:flex-start; gap:10px;
+  max-width:60ch; margin-top:6px;
+  background:var(--teal-50); border:1px solid var(--teal-100);
+  border-radius:var(--radius-md); padding:12px 16px;
+}
+.value-prop-icon{
+  flex-shrink:0; width:20px; height:20px; margin-top:1px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%; background:var(--teal); color:var(--white);
+  font-size:.72rem; font-weight:700;
+}
+.value-prop p{margin:0; font-size:.86rem; color:var(--plum); line-height:1.55;}
+
 /* ---------------------------------------------------------------- cards grid */
 .card-grid{
   display:grid;
