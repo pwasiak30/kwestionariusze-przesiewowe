@@ -635,8 +635,8 @@
     const update = () => {
       const online = navigator.onLine;
       document.querySelectorAll("#offlineDot, #offlineDotSidebar").forEach((el) => {
-        el.classList.toggle("dot-online", online);
-        el.classList.toggle("dot-offline", !online);
+        el.classList.toggle("status-dot-online", online);
+        el.classList.toggle("status-dot-offline", !online);
       });
       const t = document.getElementById("offlineTextSidebar");
       if (t) t.textContent = online ? "Połączono" : "Tryb offline";

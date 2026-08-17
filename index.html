@@ -5,11 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Narzędzia Przesiewowe | Psychodiagnostyka</title>
 <meta name="description" content="Kwestionariusze przesiewowe z automatycznym scoringiem: GAD-7, PHQ-9, PCL-5, BDI-II, AUDIT.">
-<meta name="theme-color" content="#0292A9">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<!-- ============ HEAD-COMPONENT (wasiakpawel.pl / ekosystem subdomen) ============ -->
+<meta name="theme-color" content="#3c5878">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" type="image/png" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- ============ STYLEGUIDE (bazowy, przed stylami projektu) ============ -->
+<link rel="stylesheet" href="styleguide.css">
 <link rel="stylesheet" href="style.css">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+
 <style>
 /* --- Przycisk wsparcia (Suppi) — zawsze widoczny --- */
 .coffee-fab {
@@ -24,18 +33,19 @@
      nie zasłaniał. Wysokość paska to ok. 56-60px + bezpieczny margines na
      dole ekranu (notch/gesture bar) z env(safe-area-inset-bottom). */
   bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-  background: #B5794A;
-  color: #FFF7EC;
+  background: var(--coral);
+  color: #fff7ec;
   text-decoration: none;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
   padding: 11px 16px;
   border-radius: 999px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background .15s ease;
 }
 .coffee-fab:hover, .coffee-fab:focus-visible {
+  background: var(--coral-dark);
   transform: translateY(-2px);
   box-shadow: 0 9px 20px rgba(0,0,0,0.34);
 }
@@ -56,6 +66,106 @@
 </style>
 </head>
 <body>
+
+<!-- ============ TOPBAR-COMPONENT (wasiakpawel.pl / ekosystem subdomen) ============ -->
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('wp-theme');
+      if(t === 'dark' || t === 'light'){ document.documentElement.setAttribute('data-theme', t); }
+    }catch(e){}
+  })();
+</script>
+
+<style>
+  .topbar{
+    position:sticky; top:0; z-index:999;
+    background:color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:920px; margin:0 auto; padding:12px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap;
+  }
+  .topbar-brand{
+    display:flex; align-items:center; gap:8px;
+    font-family:var(--font-heading, 'Poppins', sans-serif);
+    font-weight:700; font-size:15px;
+    color:var(--teal-900); text-decoration:none;
+  }
+  .topbar-brand:hover{ color:var(--teal-700); }
+  .topbar-brand .dot{
+    width:9px; height:9px; border-radius:50%; background:var(--coral); flex:none;
+  }
+  .topbar-links{
+    display:flex; align-items:center; gap:16px; list-style:none; margin:0; padding:0;
+  }
+  .topbar-links a{
+    color:var(--ink-soft); text-decoration:none; font-weight:600; font-size:13.5px;
+    font-family:var(--font-body, 'Inter', sans-serif);
+    padding:6px 10px; border-radius:999px; transition:background .15s ease, color .15s ease;
+  }
+  .topbar-links a:hover{ background:var(--teal-100); color:var(--teal-700); }
+  .topbar-links a.is-accent{
+    background:var(--coral); color:#fff;
+  }
+  .topbar-links a.is-accent:hover{ background:var(--coral-dark); color:#fff; }
+
+  @media (max-width:480px){
+    .topbar-inner{ padding:10px 14px; }
+    .topbar-brand{ font-size:14px; }
+    .topbar-links a{ font-size:12.5px; padding:5px 8px; }
+  }
+</style>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="https://wasiakpawel.pl" class="topbar-brand">
+      <span class="dot"></span>
+      wasiakpawel.pl
+    </a>
+    <nav>
+      <ul class="topbar-links">
+        <li><a href="https://wasiakpawel.pl">Strona główna</a></li>
+        <li><a href="https://linktree.wasiakpawel.pl" class="is-accent">🔗 Linktree</a></li>
+        <li>
+          <button
+            type="button"
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Przełącz jasny/ciemny motyw"
+            title="Przełącz jasny/ciemny motyw"
+          >
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1zm0 15a1 1 0 0 1 1 1V22a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1zm7.5-7.5a1 1 0 0 1 1-1H22a1 1 0 1 1 0 2h-1.5a1 1 0 0 1-1-1zm-15 0a1 1 0 0 1 1 1H2a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1zm12.02-5.52a1 1 0 0 1 0-1.42l1.06-1.06a1 1 0 1 1 1.42 1.42l-1.06 1.06a1 1 0 0 1-1.42 0zM5.44 18.56a1 1 0 0 1 0-1.42l1.06-1.06a1 1 0 1 1 1.42 1.42l-1.06 1.06a1 1 0 0 1-1.42 0zm13.12 0a1 1 0 0 1-1.42 0l-1.06-1.06a1 1 0 1 1 1.42-1.42l1.06 1.06a1 1 0 0 1 0 1.42zM6.5 6.5a1 1 0 0 1-1.42 0L4.02 5.44a1 1 0 0 1 1.42-1.42L6.5 5.08a1 1 0 0 1 0 1.42zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 14.5A9 9 0 1 1 9.5 2.5a1 1 0 0 1 1.06 1.5A7 7 0 0 0 20 13.44a1 1 0 0 1 1.5 1.06z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  (function(){
+    var KEY = 'wp-theme';
+    function current(){
+      var attr = document.documentElement.getAttribute('data-theme');
+      if(attr === 'dark' || attr === 'light') return attr;
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    var btn = document.getElementById('theme-toggle');
+    if(btn){
+      btn.addEventListener('click', function(){
+        var next = current() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try{ localStorage.setItem(KEY, next); }catch(e){}
+      });
+    }
+  })();
+</script>
+
 <div class="app-shell">
 
 <!-- ============ PRZYCISK WSPARCIA — zawsze widoczny, niezależnie od widoku ============ -->
@@ -64,14 +174,14 @@
 <span class="coffee-label">Postaw kawę</span>
 </a>
 
-<!-- ============ TOP BAR (mobile) / SIDEBAR (desktop) ============ -->
-<header class="topbar">
+<!-- ============ APP TOPBAR (mobile) / SIDEBAR (desktop) ============ -->
+<header class="app-topbar">
 <div class="brand" data-action="go-home">
 <span class="brand-mark">◎</span>
 <span class="brand-text">Narzędzia&nbsp;Przesiewowe</span>
 </div>
 <button class="icon-btn" id="offlineIndicator" title="Status połączenia" aria-label="Status połączenia">
-<span id="offlineDot" class="dot dot-online"></span>
+<span id="offlineDot" class="status-dot status-dot-online"></span>
 </button>
 </header>
 
@@ -82,7 +192,7 @@
 </div>
 <div class="sidebar-list" id="sidebarList"><!-- injected --></div>
 <div class="sidebar-footer">
-<span id="offlineDotSidebar" class="dot dot-online"></span>
+<span id="offlineDotSidebar" class="status-dot status-dot-online"></span>
 <span id="offlineTextSidebar">Połączono</span>
 </div>
 </nav>
@@ -144,6 +254,34 @@ Wyniki nie są nigdzie wysyłane ani zapisywane poza urządzeniem, na którym uz
 </div>
 </section>
 </template>
+
+<!-- ============ SOCIAL-LINKS-COMPONENT — pływający pasek (FAB) ============ -->
+<div class="social-fab" role="navigation" aria-label="Media społecznościowe">
+  <a href="https://x.com/wasiak_dsm" target="_blank" rel="noopener" title="X (Twitter)" aria-label="X (Twitter)">
+    <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-6.7L4.8 22H1.7l8.1-9.3L1 2h7.1l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 4H5.4l12.3 16z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/pwasiak30" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1s2.48 1.1 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05C19.8 8 21 10 21 13.2V23h-4v-8.9c0-2.13-.04-4.86-2.96-4.86-2.97 0-3.42 2.32-3.42 4.7V23H8V8z"/></svg>
+  </a>
+  <a href="https://www.youtube.com/@psychologia.wasiak" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+    <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.5v-7L15.8 12l-6.2 3.5z"/></svg>
+  </a>
+  <a href="https://www.instagram.com/psychologia.wasiak/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.6 1.8c.46-.16 1.26-.35 2.43-.4C9.28 1.35 9.7 1.34 12 1.34zm0 3.16a6.64 6.64 0 1 0 0 13.28 6.64 6.64 0 0 0 0-13.28zm0 10.95a4.31 4.31 0 1 1 0-8.62 4.31 4.31 0 0 1 0 8.62zm7.34-11.2a1.55 1.55 0 1 1-3.1 0 1.55 1.55 0 0 1 3.1 0z"/></svg>
+  </a>
+  <a href="https://www.facebook.com/psychologia.wasiak" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+  </a>
+  <a href="https://github.com/pwasiak30" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+    <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.12.82-.26.82-.58v-2.02c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.75.09-.73.09-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.66-.3-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.33 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.56 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.81 5.63-5.49 5.92.43.38.81 1.1.81 2.22v3.29c0 .32.22.71.83.58A12 12 0 0 0 12 .3z"/></svg>
+  </a>
+  <a href="https://mastodon.social/@s3in610" target="_blank" rel="noopener" title="Mastodon" aria-label="Mastodon">
+    <svg viewBox="0 0 24 24"><path d="M21.6 7.5c0-4.1-2.7-5.3-2.7-5.3C17.5 1.5 15.3 1.1 13 1h-.1c-2.3.1-4.5.5-5.9 1.2 0 0-2.7 1.2-2.7 5.3 0 .9-.02 2 0 3.1.06 4 .6 8 3.7 8.9 1.4.4 2.6.5 3.6.4 1.8-.1 2.8-.6 2.8-.6l-.06-1.3s-1.3.4-2.7.4c-1.4-.05-2.9-.15-3.1-1.9a3.5 3.5 0 0 1-.03-.5c1.4.3 3.5.4 4.9.3 1.2-.1 2.5-.3 3.6-.9 0 0 .5-.3.9-.7 1-1 1.4-2.6 1.5-4.6.02-.7.02-1.3.02-1.9zm-2.4 3.9h-1.5V7.9c0-.9-.4-1.4-1.2-1.4-.9 0-1.3.6-1.3 1.7v2.4h-1.5V8.2c0-1.1-.4-1.7-1.3-1.7-.8 0-1.2.5-1.2 1.4v3.5H8.9V7.8c0-.9.2-1.6.7-2.2.5-.6 1.2-.9 2-.9.9 0 1.6.3 2.1 1l.4.7.4-.7c.5-.7 1.2-1 2.1-1 .8 0 1.5.3 2 .9.5.6.7 1.3.7 2.2v3.6z"/></svg>
+  </a>
+  <a href="https://linktree.wasiakpawel.pl" target="_blank" rel="noopener" title="Wszystkie linki" aria-label="Wszystkie linki (Linktree)">
+    <svg viewBox="0 0 24 24"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h3.5v1.7H7a1.4 1.4 0 1 0 0 2.8h3.5v1.7H7A3.1 3.1 0 0 1 3.9 12zm12.6-3.1H13v1.7h3.5a1.4 1.4 0 1 1 0 2.8H13v1.7h3.5a3.1 3.1 0 1 0 0-6.2zM8.5 11.15h7v1.7h-7v-1.7z"/></svg>
+  </a>
+</div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>

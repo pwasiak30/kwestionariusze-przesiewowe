@@ -1,0 +1,290 @@
+/* ==========================================================================
+   STYLEGUIDE.CSS — wasiakpawel.pl / ekosystem subdomen
+   Bazowy plik stylów. Wklej <link rel="stylesheet" href="/styleguide.css">
+   PRZED plikiem CSS specyficznym dla danego projektu (żeby móc go nadpisywać).
+
+   AKTUALIZACJA (2026-08-17): nowa, stonowana identyfikacja wizualna —
+   wypracowana najpierw na landing page'u "Otulina" (projekt badawczy o
+   przeglądarce sensorycznej dla osób w spektrum autyzmu), a teraz przyjęta
+   jako NOWA, DOMYŚLNA paleta i typografia całego ekosystemu (decyzja w
+   ramach projektu "Marka"). W tym pliku ZOSTAŁY POŚWIĘCONE wyłącznie ASD-
+   -specyficzne ograniczenia ruchu — zwykłe animacje/hover/transformy
+   (np. .btn:active{transform:scale(.97)}, .social-links a:hover{transform:
+   translateY(-2px)}) zostają, bo dla ogólnej publiczności nie są problemem.
+   Jeśli jakaś podstrona (np. sama "Otulina") nadal potrzebuje trybu bez
+   ruchu, powinna to nadpisać lokalnie (@media prefers-reduced-motion i/lub
+   usunięcie transformów), tak jak robiła to dotychczas.
+
+   ZMIANA WZGLĘDEM POPRZEDNIEJ WERSJI:
+     - Nazwy zmiennych zachowane 1:1 (--teal-*, --coral*, --amber*, --ink,
+       --paper, --card, --line...) — dzięki temu topbar-component.html i
+       social-links-component.html działają BEZ ŻADNYCH zmian w markupie.
+     - Wartości zmiennych zamienione z teal/coral na stalowy błękit + bursztyn
+       + szałwia, tła z czystej bieli na ciepły krem (jasny) / matowy grafit
+       (ciemny) — patrz sekcje niżej.
+     - Typografia: Poppins+Inter zamienione na jedną, bardzo czytelną rodzinę
+       Atkinson Hyperlegible (nagłówki i tekst), zgodnie z tym, co sprawdziło
+       się na "Otulinie".
+     - UWAGA SYNC: --teal-600 jest zduplikowane jako <meta name="theme-color">
+       w head-component.html. Ta aktualizacja ZMIENIA tę wartość na #3c5878 —
+       head-component.html w wiedzy projektu został zaktualizowany równolegle.
+   ========================================================================== */
+
+/* --- Fonty (Google Fonts) --- */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+/* --- Zmienne: tryb jasny (domyślny) --- */
+:root{
+  /* Kolor marki — stalowy błękit (dawniej teal)
+     UWAGA: --teal-600 jest zduplikowane jako <meta name="theme-color"> w
+     head-component.html (JEDEN stały kolor paska przeglądarki, wspólny dla
+     całego ekosystemu — celowo bez rozróżnienia jasny/ciemny, patrz komentarz
+     tam). Jeśli zmienisz wartość --teal-600 tutaj, zaktualizuj ręcznie też
+     tamten plik — to zwykły <meta>, nie zmienna CSS, więc się samo nie
+     podciągnie. */
+  --teal-900:#233650;
+  --teal-700:#3c5878;
+  --teal-600:#3c5878;
+  --teal-500:#5779a0;
+  --teal-100:#e4eaf1;
+
+  /* Kolory akcentu / statusów — "coral" pozostaje nazwą zmiennej (zgodność
+     z topbar/social-fab), ale wartość to przyciemniony bursztyn */
+  --coral:#b8722a;
+  --coral-dark:#9c5f22;
+  --amber:#b8722a;
+  --amber-dark:#9c5f22;
+  --sage:#5e7d5e;
+  --sage-dark:#4a6449;
+  --red:#c14f43;
+  --red-dark:#a53e33;
+  --green:#4a7a52;
+  --green-dark:#3a6241;
+
+  /* Tekst i tło */
+  --ink:#312c22;
+  --ink-soft:#635b4b;
+  --paper:#f3ead9;
+  --card:#faf4e8;
+  --line:#ddd0b6;
+
+  /* Efekty */
+  --shadow: 0 10px 30px rgba(49,44,34,0.10);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+
+  /* Fonty */
+  --font-heading: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+
+  color-scheme: light;
+}
+
+/* --- Zmienne: tryb ciemny (automatycznie wg systemu) --- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --teal-900:#dfe7ee;
+    --teal-700:#8fb0d1;
+    --teal-600:#7ea3c9;
+    --teal-500:#5779a0;
+    --teal-100:#28384a;
+
+    --coral:#e0a95e;
+    --coral-dark:#c98a3f;
+    --amber:#e0a95e;
+    --amber-dark:#c98a3f;
+    --sage:#8fac8b;
+    --sage-dark:#6f8f6c;
+    --red:#e07a6d;
+    --red-dark:#c14f43;
+    --green:#7fb385;
+    --green-dark:#4a7a52;
+
+    --ink:#e9e4d8;
+    --ink-soft:#b3ac9c;
+    --paper:#1b1f24;
+    --card:#23282f;
+    --line:#383e46;
+
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+
+/* --- Manualne nadpisanie (przełącznik motywu — patrz sekcja THEME TOGGLE niżej) ---
+   Dodaj data-theme="dark" lub data-theme="light" na <html>, żeby wymusić motyw
+   niezależnie od ustawień systemu. */
+:root[data-theme="dark"]{
+  --teal-900:#dfe7ee; --teal-700:#8fb0d1; --teal-600:#7ea3c9; --teal-500:#5779a0; --teal-100:#28384a;
+  --coral:#e0a95e; --coral-dark:#c98a3f; --amber:#e0a95e; --amber-dark:#c98a3f;
+  --sage:#8fac8b; --sage-dark:#6f8f6c; --red:#e07a6d; --red-dark:#c14f43; --green:#7fb385; --green-dark:#4a7a52;
+  --ink:#e9e4d8; --ink-soft:#b3ac9c; --paper:#1b1f24; --card:#23282f; --line:#383e46;
+  --shadow: 0 10px 30px rgba(0,0,0,0.35); color-scheme: dark;
+}
+:root[data-theme="light"]{
+  --teal-900:#233650; --teal-700:#3c5878; --teal-600:#3c5878; --teal-500:#5779a0; --teal-100:#e4eaf1;
+  --coral:#b8722a; --coral-dark:#9c5f22; --amber:#b8722a; --amber-dark:#9c5f22;
+  --sage:#5e7d5e; --sage-dark:#4a6449; --red:#c14f43; --red-dark:#a53e33; --green:#4a7a52; --green-dark:#3a6241;
+  --ink:#312c22; --ink-soft:#635b4b; --paper:#f3ead9; --card:#faf4e8; --line:#ddd0b6;
+  --shadow: 0 10px 30px rgba(49,44,34,0.10); color-scheme: light;
+}
+
+/* --- Reset / bazowe --- */
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg,video{ max-width:100%; display:block; }
+
+/* --- Typografia --- */
+h1,h2,h3,h4{
+  font-family:var(--font-heading);
+  line-height:1.2;
+  margin:0 0 .5em 0;
+  color:var(--ink);
+}
+h1{ font-size:clamp(1.9rem, 4vw, 2.8rem); font-weight:800; }
+h2{ font-size:clamp(1.5rem, 3vw, 2.1rem); font-weight:700; }
+h3{ font-size:1.25rem; font-weight:700; }
+h4{ font-size:1.05rem; font-weight:600; }
+p{ margin:0 0 1em 0; }
+a{ color:var(--teal-600); }
+small,.text-sm{ font-size:13.5px; color:var(--ink-soft); }
+
+/* --- Layout --- */
+.wrap{ max-width:920px; margin:0 auto; padding:0 20px; }
+.wrap-narrow{ max-width:720px; margin:0 auto; padding:0 20px; }
+
+/* --- Przyciski --- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--font-body); font-weight:600; font-size:15px;
+  padding:14px 26px; border-radius:var(--radius-pill);
+  text-decoration:none; cursor:pointer; border:2px solid transparent;
+  transition:background .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+.btn:active{ transform:scale(.97); }
+.btn-primary{ background:var(--coral); color:#fff; }
+.btn-primary:hover{ background:var(--coral-dark); }
+.btn-secondary{ background:var(--teal-600); color:#fff; }
+.btn-secondary:hover{ background:var(--teal-700); }
+.btn-ghost{ background:transparent; color:var(--teal-700); border-color:var(--teal-600); }
+.btn-ghost:hover{ background:var(--teal-100); }
+.btn-wide{ width:100%; }
+.btn[disabled]{ opacity:.4; cursor:not-allowed; }
+
+/* --- Karty --- */
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:24px;
+}
+
+/* --- Znaczniki / chipy --- */
+.chip{
+  display:inline-block; background:var(--teal-100); color:var(--teal-700);
+  padding:6px 14px; border-radius:var(--radius-pill); font-size:13px; font-weight:600;
+}
+
+/* --- Formularze (bazowe) --- */
+input,textarea,select{
+  font-family:var(--font-body); font-size:15px; color:var(--ink);
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius-sm);
+  padding:10px 14px; width:100%;
+}
+input:focus,textarea:focus,select:focus{ outline:2px solid var(--teal-500); outline-offset:1px; }
+label{ font-weight:600; font-size:14px; display:block; margin-bottom:6px; }
+
+/* ==========================================================================
+   THEME TOGGLE — ręczny przełącznik jasny/ciemny (do wklejenia w topbarze)
+   Wymaga <button id="theme-toggle" class="theme-toggle"> z dwiema ikonami
+   wewnątrz (.icon-sun / .icon-moon) — gotowy markup + skrypt JS (ustawienie
+   atrybutu data-theme na <html> + zapis wyboru w localStorage) są częścią
+   topbar-component.html, żeby działało od razu po wklejeniu topbara.
+   Domyślnie (bez kliknięcia) strona nadal podąża za motywem systemowym
+   (prefers-color-scheme) — ręczny wybór go tylko nadpisuje.
+   ========================================================================== */
+.theme-toggle{
+  display:flex; align-items:center; justify-content:center;
+  width:32px; height:32px; padding:0; margin:0; flex:none;
+  border:1px solid var(--line); border-radius:50%;
+  background:var(--card); color:var(--ink-soft); cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.theme-toggle:hover{ background:var(--teal-100); color:var(--teal-700); border-color:var(--teal-500); }
+.theme-toggle:focus-visible{ outline:2px solid var(--teal-500); outline-offset:2px; }
+.theme-toggle svg{ width:16px; height:16px; fill:currentColor; display:block; }
+.theme-toggle .icon-moon{ display:none; }
+
+/* Ikona zawsze pokazuje AKTUALNIE aktywny motyw (słońce = jasny, księżyc = ciemny) -
+   zarówno gdy wybrany ręcznie (data-theme), jak i gdy podążamy za systemem. */
+:root[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
+:root[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme]) .theme-toggle .icon-sun{ display:none; }
+  :root:not([data-theme]) .theme-toggle .icon-moon{ display:block; }
+}
+
+/* ==========================================================================
+   SOCIAL LINKS — rząd ikon (do footera/topbara) + pływający pasek (FAB)
+   Markup gotowy do wklejenia: social-links-component.html
+   UWAGA (2026-08-14): FAB przestał być rozwijany na kliknięcie (był problem —
+   na telefonie przycisk-przełącznik był niewidoczny/nie reagował). Teraz to
+   statyczny pasek, zawsze widoczny, także na mobile — na małych ekranach
+   układa się poziomo przy dolnej krawędzi zamiast pionowo, żeby nie zasłaniać
+   treści. Jeśli strona ma też pływający przycisk wsparcia/CTA (np. Suppi),
+   trzymaj go w prawym dolnym rogu — .social-fab siedzi po lewej.
+   ========================================================================== */
+
+/* --- Rząd ikon w linii (footer, sekcja "o mnie" itp.) --- */
+.social-links{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:0; padding:0; list-style:none;
+}
+.social-links a{
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:50%;
+  background:var(--teal-100); color:var(--teal-700);
+  transition:background .15s ease, color .15s ease, transform .15s ease;
+}
+.social-links a:hover{ background:var(--teal-600); color:#fff; transform:translateY(-2px); }
+.social-links svg{ width:17px; height:17px; fill:currentColor; flex:none; }
+
+/* --- Pływający pasek (FAB), statyczny, bez rozwijania --- */
+.social-fab{
+  position:fixed; left:18px; bottom:18px; z-index:998;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:color-mix(in srgb, var(--card) 82%, transparent);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 6px;
+  box-shadow:var(--shadow);
+}
+.social-fab a{
+  display:flex; align-items:center; justify-content:center;
+  width:32px; height:32px; border-radius:50%;
+  color:var(--ink-soft);
+  transition:background .18s ease, color .18s ease, transform .18s ease;
+}
+.social-fab a:hover{ background:var(--teal-600); color:#fff; transform:translateY(-2px); }
+.social-fab svg{ width:15px; height:15px; fill:currentColor; display:block; }
+.social-fab .emoji{ font-size:.85rem; line-height:1; }
+
+/* Na małych ekranach pasek NIE znika — układa się poziomo przy dolnej krawędzi
+   (od lewej do prawej, wyśrodkowany), z mniejszymi ikonami, żeby nie zasłaniać
+   treści strony. */
+@media (max-width:640px){
+  .social-fab{
+    left:8px; right:8px; bottom:8px; width:auto;
+    flex-direction:row; justify-content:center; flex-wrap:wrap;
+    padding:6px 8px; gap:4px;
+  }
+  .social-fab a{ width:26px; height:26px; }
+  .social-fab svg{ width:12px; height:12px; }
+}

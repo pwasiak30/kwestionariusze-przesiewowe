@@ -1,12 +1,16 @@
 // sw.js — prosty service worker cache-first dla działania offline (PWA)
-const CACHE_NAME = "przesiew-cache-v1";
+const CACHE_NAME = "przesiew-cache-v2";
 const ASSETS = [
   "./",
   "./index.html",
+  "./styleguide.css",
   "./style.css",
   "./app.js",
   "./data.js",
   "./manifest.json",
+  "./favicon.svg",
+  "./favicon-32.png",
+  "./apple-touch-icon.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-192.png",
